@@ -1,7 +1,8 @@
 -- =============================================
--- MeowHub - GUI Loader (Safe Version)
--- One loadstring = Menu to choose scripts
+-- Rey's MeowHub - Safe GUI Loader
 -- =============================================
+
+print("🔥 Rey's MeowHub GUI Loading...")
 
 local baseUrl = "https://raw.githubusercontent.com/zzxncl/MeowHub-Scripts/main/scripts/"
 
@@ -10,58 +11,59 @@ local Scripts = {
     ["Kick a Lucky Block"] = "kick a lucky block",
 }
 
--- Create GUI
+-- GUI
 local player = game.Players.LocalPlayer
 local gui = Instance.new("ScreenGui")
-gui.Name = "MeowHub"
+gui.Name = "ReyMeowHub"
 gui.ResetOnSpawn = false
 gui.Parent = player:WaitForChild("PlayerGui")
 
 local frame = Instance.new("Frame")
-frame.Size = UDim2.new(0, 350, 0, 300)
-frame.Position = UDim2.new(0.5, -175, 0.5, -150)
-frame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+frame.Size = UDim2.new(0, 380, 0, 280)
+frame.Position = UDim2.new(0.5, -190, 0.5, -140)
+frame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
 frame.BorderSizePixel = 0
 frame.Parent = gui
 
 local title = Instance.new("TextLabel")
 title.Size = UDim2.new(1, 0, 0, 50)
-title.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+title.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
 title.Text = "🔥 Rey's MeowHub"
-title.TextColor3 = Color3.new(1, 1, 1)
-title.TextSize = 18
+title.TextColor3 = Color3.new(1,1,1)
+title.TextSize = 20
 title.Parent = frame
 
-local list = Instance.new("UIListLayout")
-list.Padding = UDim.new(0, 8)
-list.Parent = frame
+local layout = Instance.new("UIListLayout")
+layout.Padding = UDim.new(0, 10)
+layout.Parent = frame
 
-for displayName, fileName in pairs(Scripts) do
-    local btn = Instance.new("TextButton")
-    btn.Size = UDim2.new(1, -20, 0, 50)
-    btn.Position = UDim2.new(0, 10, 0, 0)
-    btn.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-    btn.Text = displayName
-    btn.TextColor3 = Color3.new(1, 1, 1)
-    btn.TextSize = 16
-    btn.Parent = frame
+for displayName, filename in pairs(Scripts) do
+    local button = Instance.new("TextButton")
+    button.Size = UDim2.new(1, -20, 0, 55)
+    button.Position = UDim2.new(0, 10, 0, 0)
+    button.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+    button.Text = displayName
+    button.TextColor3 = Color3.new(1,1,1)
+    button.TextSize = 16
+    button.Parent = frame
     
-    btn.MouseButton1Click:Connect(function()
-        local encoded = fileName:gsub(" ", "%%20")
+    button.MouseButton1Click:Connect(function()
+        button.Text = "Loading..."
+        local encoded = filename:gsub(" ", "%%20")
         local url = baseUrl .. encoded
-        
-        print("🔥 Loading: " .. displayName)
         
         local success, err = pcall(function()
             loadstring(game:HttpGet(url, true))()
         end)
         
         if success then
+            button.Text = displayName .. " ✅"
             print("✅ Loaded: " .. displayName)
         else
-            warn("❌ Failed to load " .. displayName .. " | " .. tostring(err))
+            button.Text = displayName .. " ❌"
+            warn("Failed to load " .. displayName .. " | " .. tostring(err))
         end
     end)
 end
 
-print("✅ MeowHub GUI Loaded! Click the buttons.")
+print("✅ MeowHub GUI is ready! Click the buttons to load scripts.")
