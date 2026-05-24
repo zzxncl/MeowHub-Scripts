@@ -3,7 +3,7 @@
 -- One loadstring = Loads ALL scripts automatically
 -- =============================================
 
-print("🔥 Rey's MeowHub Starting...")
+print("MeowHub Starting...")
 
 local baseUrl = "https://raw.githubusercontent.com/zzxncl/MeowHub-Scripts/main/scripts/"
 
