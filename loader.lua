@@ -243,7 +243,7 @@ scrollContainer.ScrollBarThickness = 3
 scrollContainer.ScrollBarImageColor3 = Colors.AccentPurple
 scrollContainer.ScrollBarImageTransparency = 0.4
 scrollContainer.CanvasSize = UDim2.new(0, 0, 0, 0)
-scrollContainer.AutomaticCanvasSize = Enum.AutomaticCanvasSize.Y
+scrollContainer.AutomaticCanvasSize = Enum.AutomaticSize.Y
 scrollContainer.Parent = mainFrame
 
 local listLayout = Instance.new("UIListLayout")
