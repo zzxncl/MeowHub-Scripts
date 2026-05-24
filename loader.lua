@@ -1,6 +1,5 @@
 -- =============================================
--- Rey's MeowHub - All-In-One Loader
--- One loadstring = Loads ALL scripts automatically
+-- MeowHub - All-In-One Loader
 -- =============================================
 
 print("MeowHub Starting...")
@@ -10,7 +9,6 @@ local baseUrl = "https://raw.githubusercontent.com/zzxncl/MeowHub-Scripts/main/s
 local AllScripts = {
     "cut grass for anime characters",
     "kick a lucky block",
-    -- Add more scripts here later ↓
 }
 
 print("============================================")
@@ -30,10 +28,12 @@ for _, scriptName in ipairs(AllScripts) do
     if success then
         print("✅ Successfully loaded: " .. scriptName)
     else
-        warn("❌ Failed to load " .. scriptName .. " → " .. tostring(err))
+        warn("❌ Failed to load " .. scriptName)
+        warn("   URL: " .. url)
+        warn("   Error: " .. tostring(err))
     end
 end
 
 print("============================================")
-print("✅ MeowHub Finished Loading All Scripts!")
+print("✅ MeowHub Finished Loading!")
 print("============================================")
