@@ -1,5 +1,6 @@
 -- =============================================
 -- MeowHub - All-In-One Loader
+-- One loadstring = Loads all scripts safely
 -- =============================================
 
 print("MeowHub Starting...")
@@ -22,18 +23,17 @@ for _, scriptName in ipairs(AllScripts) do
     print("→ Loading: " .. scriptName)
     
     local success, err = pcall(function()
-        loadstring(game:HttpGet(url))()
+        loadstring(game:HttpGet(url, true))()  -- 'true' forces fresh download
     end)
     
     if success then
         print("✅ Successfully loaded: " .. scriptName)
     else
         warn("❌ Failed to load " .. scriptName)
-        warn("   URL: " .. url)
         warn("   Error: " .. tostring(err))
     end
 end
 
 print("============================================")
-print("✅ MeowHub Finished Loading!")
+print("✅ MeowHub Finished Loading All Scripts!")
 print("============================================")
