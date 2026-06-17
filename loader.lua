@@ -2,38 +2,32 @@
 -- 🐾 MeowHub - Premium GUI Loader
 -- Smooth animations, search filter, modern design, dragging, and loading states
 -- =============================================================================
-
 local baseUrl = "https://raw.githubusercontent.com/zzxncl/MeowHub-Scripts/main/scripts/"
-
 local Scripts = {
     ["Cut Grass for Anime"] = "cut grass for anime characters",
     ["Kick a Lucky Block"] = "kick a lucky block",
+    ["Sell a Lemon"] = "sell a lemon",
 }
-
 -- Services
 local Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
 local CoreGui = nil
-
 -- Attempt to find CoreGui for exploit support, fallback to PlayerGui for testing/Studio
 local success, err = pcall(function()
     CoreGui = game:GetService("CoreGui")
 end)
 local localPlayer = Players.LocalPlayer
 local targetParent = (success and CoreGui) or localPlayer:WaitForChild("PlayerGui")
-
 -- Check if MeowHub is already running, and destroy the old instance
 if targetParent:FindFirstChild("MeowHub") then
     targetParent.MeowHub:Destroy()
 end
-
 -- Create GUI Instance
 local gui = Instance.new("ScreenGui")
 gui.Name = "MeowHub"
 gui.ResetOnSpawn = false
 gui.Parent = targetParent
-
 -- UI Configuration (Purple-Pink Neon Gradient Theme)
 local Colors = {
     Background = Color3.fromRGB(15, 15, 20),
@@ -47,7 +41,6 @@ local Colors = {
     SuccessGreen = Color3.fromRGB(34, 197, 94),
     ErrorRed = Color3.fromRGB(239, 68, 68)
 }
-
 -- Main Frame (Dimensions: 360 width, 420 height)
 local mainFrame = Instance.new("Frame")
 mainFrame.Name = "MainFrame"
@@ -58,12 +51,10 @@ mainFrame.BackgroundColor3 = Colors.Background
 mainFrame.BorderSizePixel = 0
 mainFrame.ClipsDescendants = true
 mainFrame.Parent = gui
-
 -- Rounded Corners for Main Frame
 local mainCorner = Instance.new("UICorner")
 mainCorner.CornerRadius = UDim.new(0, 10)
 mainCorner.Parent = mainFrame
-
 -- Subtle Background Gradient (Angled)
 local mainBgGradient = Instance.new("UIGradient")
 mainBgGradient.Color = ColorSequence.new{
@@ -72,14 +63,12 @@ mainBgGradient.Color = ColorSequence.new{
 }
 mainBgGradient.Rotation = 45
 mainBgGradient.Parent = mainFrame
-
 -- Glowing Accent Border Outline
 local mainStroke = Instance.new("UIStroke")
 mainStroke.Color = Color3.fromRGB(45, 45, 55)
 mainStroke.Thickness = 1.5
 mainStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 mainStroke.Parent = mainFrame
-
 -- Purple/Pink Gradient for Border Outline
 local strokeGradient = Instance.new("UIGradient")
 strokeGradient.Color = ColorSequence.new{
@@ -88,7 +77,6 @@ strokeGradient.Color = ColorSequence.new{
 }
 strokeGradient.Rotation = 90
 strokeGradient.Parent = mainStroke
-
 -- =============================================================================
 -- Title Bar (Header)
 -- =============================================================================
@@ -98,7 +86,6 @@ headerFrame.Size = UDim2.new(1, 0, 0, 45)
 headerFrame.BackgroundTransparency = 1
 headerFrame.BorderSizePixel = 0
 headerFrame.Parent = mainFrame
-
 local titleText = Instance.new("TextLabel")
 titleText.Name = "TitleText"
 titleText.Size = UDim2.new(1, -90, 1, 0)
@@ -111,7 +98,6 @@ titleText.TextSize = 16
 titleText.Font = Enum.Font.GothamMedium
 titleText.TextXAlignment = Enum.TextXAlignment.Left
 titleText.Parent = headerFrame
-
 -- Action Buttons Container
 local controlsContainer = Instance.new("Frame")
 controlsContainer.Name = "ControlsContainer"
@@ -119,7 +105,6 @@ controlsContainer.Size = UDim2.new(0, 70, 1, 0)
 controlsContainer.Position = UDim2.new(1, -75, 0, 0)
 controlsContainer.BackgroundTransparency = 1
 controlsContainer.Parent = headerFrame
-
 -- Helper to style control buttons
 local function createControlBtn(text, xOffset, name)
     local btn = Instance.new("TextButton")
@@ -134,16 +119,13 @@ local function createControlBtn(text, xOffset, name)
     btn.Font = Enum.Font.GothamBold
     btn.AutoButtonColor = false
     btn.Parent = controlsContainer
-
     local corner = Instance.new("UICorner")
     corner.CornerRadius = UDim.new(0, 6)
     corner.Parent = btn
-
     local stroke = Instance.new("UIStroke")
     stroke.Color = Colors.BorderMuted
     stroke.Thickness = 1
     stroke.Parent = btn
-
     -- Hover Animations
     btn.MouseEnter:Connect(function()
         TweenService:Create(btn, TweenInfo.new(0.2), {
@@ -154,7 +136,6 @@ local function createControlBtn(text, xOffset, name)
             Color = name == "CloseButton" and Color3.fromRGB(220, 80, 80) or Colors.AccentPurple
         }):Play()
     end)
-
     btn.MouseLeave:Connect(function()
         TweenService:Create(btn, TweenInfo.new(0.2), {
             BackgroundColor3 = Color3.fromRGB(30, 30, 35),
@@ -164,13 +145,10 @@ local function createControlBtn(text, xOffset, name)
             Color = Colors.BorderMuted
         }):Play()
     end)
-
     return btn
 end
-
 local minBtn = createControlBtn("−", 0, "MinimizeButton")
 local closeBtn = createControlBtn("×", 32, "CloseButton")
-
 -- =============================================================================
 -- Search Bar Frame
 -- =============================================================================
@@ -181,16 +159,13 @@ searchContainer.Position = UDim2.new(0, 15, 0, 50)
 searchContainer.BackgroundColor3 = Colors.SearchBg
 searchContainer.BorderSizePixel = 0
 searchContainer.Parent = mainFrame
-
 local searchCorner = Instance.new("UICorner")
 searchCorner.CornerRadius = UDim.new(0, 8)
 searchCorner.Parent = searchContainer
-
 local searchStroke = Instance.new("UIStroke")
 searchStroke.Color = Colors.BorderMuted
 searchStroke.Thickness = 1
 searchStroke.Parent = searchContainer
-
 local searchIcon = Instance.new("TextLabel")
 searchIcon.Name = "SearchIcon"
 searchIcon.Size = UDim2.new(0, 20, 0, 20)
@@ -202,7 +177,6 @@ searchIcon.TextColor3 = Colors.TextMuted
 searchIcon.Font = Enum.Font.Gotham
 local centerAlign = Instance.new("UIListLayout") -- Quick visual align helper
 searchIcon.Parent = searchContainer
-
 local searchBox = Instance.new("TextBox")
 searchBox.Name = "SearchBox"
 searchBox.Size = UDim2.new(1, -45, 1, 0)
@@ -216,20 +190,17 @@ searchBox.TextSize = 13
 searchBox.Font = Enum.Font.Gotham
 searchBox.TextXAlignment = Enum.TextXAlignment.Left
 searchBox.Parent = searchContainer
-
 -- Visual Glow on Focus
 searchBox.Focused:Connect(function()
     TweenService:Create(searchStroke, TweenInfo.new(0.25), {
         Color = Colors.AccentPurple
     }):Play()
 end)
-
 searchBox.FocusLost:Connect(function()
     TweenService:Create(searchStroke, TweenInfo.new(0.25), {
         Color = Colors.BorderMuted
     }):Play()
 end)
-
 -- =============================================================================
 -- Scripts List Container (ScrollFrame)
 -- =============================================================================
@@ -247,18 +218,15 @@ pcall(function()
     scrollContainer.AutomaticCanvasSize = Enum.AutomaticSize.Y
 end)
 scrollContainer.Parent = mainFrame
-
 local listLayout = Instance.new("UIListLayout")
 listLayout.Padding = UDim.new(0, 8)
 listLayout.SortOrder = Enum.SortOrder.LayoutOrder
 listLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
 listLayout.Parent = scrollContainer
-
 -- =============================================================================
 -- Button Generation and Dynamic Animations
 -- =============================================================================
 local buttonsMap = {}
-
 for displayName, fileName in pairs(Scripts) do
     -- Parent container is used to allow scale-down click animations without affecting UIListLayout
     local itemContainer = Instance.new("Frame")
@@ -266,7 +234,6 @@ for displayName, fileName in pairs(Scripts) do
     itemContainer.Size = UDim2.new(1, 0, 0, 48)
     itemContainer.BackgroundTransparency = 1
     itemContainer.Parent = scrollContainer
-
     local btn = Instance.new("TextButton")
     btn.Name = displayName
     btn.Size = UDim2.new(1, 0, 1, 0)
@@ -277,16 +244,13 @@ for displayName, fileName in pairs(Scripts) do
     btn.Text = "" -- Empty text since we are using labels for premium styling
     btn.AutoButtonColor = false
     btn.Parent = itemContainer
-
     local btnCorner = Instance.new("UICorner")
     btnCorner.CornerRadius = UDim.new(0, 8)
     btnCorner.Parent = btn
-
     local btnStroke = Instance.new("UIStroke")
     btnStroke.Color = Colors.BorderMuted
     btnStroke.Thickness = 1
     btnStroke.Parent = btn
-
     local scriptIcon = Instance.new("TextLabel")
     scriptIcon.Name = "ScriptIcon"
     scriptIcon.Size = UDim2.new(0, 24, 0, 24)
@@ -296,7 +260,6 @@ for displayName, fileName in pairs(Scripts) do
     scriptIcon.TextSize = 14
     scriptIcon.TextColor3 = Colors.AccentPurple
     scriptIcon.Parent = btn
-
     local nameText = Instance.new("TextLabel")
     nameText.Name = "ScriptNameText"
     nameText.Size = UDim2.new(1, -95, 1, 0)
@@ -308,7 +271,6 @@ for displayName, fileName in pairs(Scripts) do
     nameText.Font = Enum.Font.GothamMedium
     nameText.TextXAlignment = Enum.TextXAlignment.Left
     nameText.Parent = btn
-
     local statusText = Instance.new("TextLabel")
     statusText.Name = "ScriptStatusText"
     statusText.Size = UDim2.new(0, 40, 1, 0)
@@ -320,9 +282,7 @@ for displayName, fileName in pairs(Scripts) do
     statusText.Font = Enum.Font.GothamBold
     statusText.TextXAlignment = Enum.TextXAlignment.Right
     statusText.Parent = btn
-
     buttonsMap[displayName] = itemContainer
-
     -- Hover Tweens
     btn.MouseEnter:Connect(function()
         TweenService:Create(btn, TweenInfo.new(0.2, Enum.EasingStyle.Quad), {
@@ -339,7 +299,6 @@ for displayName, fileName in pairs(Scripts) do
             Position = UDim2.new(1, -45, 0, 0) -- Slide arrow right on hover
         }):Play()
     end)
-
     btn.MouseLeave:Connect(function()
         TweenService:Create(btn, TweenInfo.new(0.2, Enum.EasingStyle.Quad), {
             BackgroundColor3 = Colors.BackgroundSecondary
@@ -355,46 +314,40 @@ for displayName, fileName in pairs(Scripts) do
             Position = UDim2.new(1, -50, 0, 0) -- Return arrow to place
         }):Play()
     end)
-
     -- Click & Loading Logic
     btn.MouseButton1Down:Connect(function()
         TweenService:Create(btn, TweenInfo.new(0.1, Enum.EasingStyle.Quad), {
             Size = UDim2.new(0.96, 0, 0.92, 0)
         }):Play()
     end)
-
     btn.MouseButton1Up:Connect(function()
         TweenService:Create(btn, TweenInfo.new(0.1, Enum.EasingStyle.Quad), {
             Size = UDim2.new(1, 0, 1, 0)
         }):Play()
     end)
-
     btn.MouseButton1Click:Connect(function()
         -- Prevent clicking while already loading
         if statusText.Text == "⏳" then return end
-
         statusText.Text = "⏳"
         statusText.TextColor3 = Colors.AccentPurple
         nameText.TextColor3 = Color3.fromRGB(150, 150, 160)
-
         local encoded = fileName:gsub(" ", "%%20")
         local url = baseUrl .. encoded
-        
+       
         print("🔥 Loading: " .. displayName)
-
         -- Short wait so the user registers the dynamic visual transition
         task.wait(0.2)
-        
+       
         local success, err = pcall(function()
             loadstring(game:HttpGet(url, true))()
         end)
-        
+       
         if success then
             print("✅ Loaded: " .. displayName)
             statusText.Text = "✅"
             statusText.TextColor3 = Colors.SuccessGreen
             nameText.TextColor3 = Colors.SuccessGreen
-            
+           
             task.delay(1.5, function()
                 if statusText.Text == "✅" then
                     statusText.Text = "→"
@@ -407,7 +360,7 @@ for displayName, fileName in pairs(Scripts) do
             statusText.Text = "❌"
             statusText.TextColor3 = Colors.ErrorRed
             nameText.TextColor3 = Colors.ErrorRed
-            
+           
             task.delay(2.5, function()
                 if statusText.Text == "❌" then
                     statusText.Text = "→"
@@ -418,7 +371,6 @@ for displayName, fileName in pairs(Scripts) do
         end
     end)
 end
-
 -- =============================================================================
 -- Dynamic Search Filtering Logic
 -- =============================================================================
@@ -432,18 +384,16 @@ searchBox:GetPropertyChangedSignal("Text"):Connect(function()
         end
     end
 end)
-
 -- =============================================================================
 -- Minimize and Close Window Mechanics
 -- =============================================================================
 local isMinimized = false
 local defaultFrameHeight = 420
 local minimizedFrameHeight = 45
-
 minBtn.MouseButton1Click:Connect(function()
     isMinimized = not isMinimized
     local targetHeight = isMinimized and minimizedFrameHeight or defaultFrameHeight
-    
+   
     -- Swap controls and title visibility based on state
     if isMinimized then
         minBtn.Text = "+"
@@ -457,18 +407,16 @@ minBtn.MouseButton1Click:Connect(function()
         }):Play()
     end
 end)
-
 closeBtn.MouseButton1Click:Connect(function()
     -- Smooth Scale Down & Fade Close
     TweenService:Create(mainFrame, TweenInfo.new(0.3, Enum.EasingStyle.Back, Enum.EasingDirection.In), {
         Size = UDim2.new(0, 0, 0, 0)
     }):Play()
-    
+   
     task.delay(0.3, function()
         gui:Destroy()
     end)
 end)
-
 -- =============================================================================
 -- Dragging Mechanics (Touch & Mouse Support with Smooth Tweens)
 -- =============================================================================
@@ -476,24 +424,22 @@ local dragToggle = nil
 local dragInput = nil
 local dragStart = nil
 local startPos = nil
-
 local function updateInput(input)
     local delta = input.Position - dragStart
     local position = UDim2.new(
-        startPos.X.Scale, startPos.X.Offset + delta.X, 
+        startPos.X.Scale, startPos.X.Offset + delta.X,
         startPos.Y.Scale, startPos.Y.Offset + delta.Y
     )
     -- Smooth drag tweening so it floats elegantly with movement
     TweenService:Create(mainFrame, TweenInfo.new(0.12, Enum.EasingStyle.Quad), {Position = position}):Play()
 end
-
 headerFrame.InputBegan:Connect(function(input)
-    if (input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch) 
+    if (input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch)
        and UserInputService:GetFocusedTextBox() == nil then
         dragToggle = true
         dragStart = input.Position
         startPos = mainFrame.Position
-        
+       
         input.Changed:Connect(function()
             if input.UserInputState == Enum.UserInputState.End then
                 dragToggle = false
@@ -501,19 +447,16 @@ headerFrame.InputBegan:Connect(function(input)
         end)
     end
 end)
-
 headerFrame.InputChanged:Connect(function(input)
     if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
         dragInput = input
     end
 end)
-
 UserInputService.InputChanged:Connect(function(input)
     if input == dragInput and dragToggle then
         updateInput(input)
     end
 end)
-
 -- =============================================================================
 -- Entrance Animation (Smooth Scale Bounce)
 -- =============================================================================
@@ -521,5 +464,4 @@ mainFrame.Size = UDim2.new(0, 0, 0, 0)
 TweenService:Create(mainFrame, TweenInfo.new(0.45, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
     Size = UDim2.new(0, 360, 0, defaultFrameHeight)
 }):Play()
-
 print("✅ MeowHub GUI Loaded Successfully!")
